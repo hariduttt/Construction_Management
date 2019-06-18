@@ -2198,8 +2198,8 @@ fieldset[disabled] .btn {
   box-shadow: none;
 }
 .btn-default {
-  color: #818181;
-  background-color: #ffffff;
+  color: #ffffff;
+  background-color: #414141;
   border-color: #cccccc;
 }
 .btn-default:hover,

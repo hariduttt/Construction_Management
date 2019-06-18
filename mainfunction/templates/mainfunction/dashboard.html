@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <title>Login - Construction Management</title>
+
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,900' rel='stylesheet' type='text/css'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Techie Bootstrap 3 skin">
+  <meta name="keywords" content="bootstrap 3, skin, flat">
+  <meta name="author" content="bootstraptaste">
+
+  <!-- Bootstrap css -->
+  {% load static %}
+  <link type="text/css" href="{% static 'login/bootstrap.min.css' %}" rel="stylesheet">
+  {% load static %}
+  <link type="text/css" href="{% static 'login/bootstrap.techie.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+    Theme Name: Techie
+    Theme URL: https://bootstrapmade.com/techie-free-skin-bootstrap-3/
+    Author: BootstrapMade
+    Author URL: https://bootstrapmade.com
+  ======================================================= -->
+
+  <!-- Docs Custom styles -->
+  <style>
+    body,
+    html {
+      overflow-x: hidden
+    }
+
+    body {
+      padding: 60px 20px 0
+    }
+
+    footer {
+      border-top: 1px solid #ddd;
+      padding: 30px;
+      margin-top: 50px
+    }
+
+    .row>[class*=col-] {
+      margin-bottom: 40px
+    }
+
+    .navbar-container {
+      position: relative;
+      min-height: 100px
+    }
+
+    .navbar.navbar-fixed-bottom,
+    .navbar.navbar-fixed-top {
+      position: absolute;
+      top: 50px;
+      z-index: 0
+    }
+
+    .navbar.navbar-fixed-bottom .container,
+    .navbar.navbar-fixed-top .container {
+      max-width: 90%
+    }
+
+    .btn-group {
+      margin-bottom: 10px
+    }
+
+    .form-inline input[type=password],
+    .form-inline input[type=text],
+    .form-inline select {
+      width: 180px
+    }
+
+    .input-group {
+      margin-bottom: 10px
+    }
+
+    .pagination {
+      margin-top: 0
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container-fluid text-center" style="background-color: #414141; margin-bottom: 20px">
+    <h2 style="color: #ffffff">Construction Management</h2>
+    <a href="{% url 'login:login' %}" class="btn btn-primary" style="float: right; color: #ffffff;">Logout</a>
+  </div>
+  <h3 style="color: #414141">Welcome {{ user }}</h3>
+  <a href="{% url 'mainfunction:add_item'  %}?user={{ user }}" class="btn btn-primary" style="color: white; width: 10%; height: auto; margin-left: auto; margin-right: auto; display: block;"> Add Item </a>
+  <br><br>
+  <ul class="list-inline" style="list-style: none;">
+      {% for project in project_details %}
+        <li style="width: 33%; margin-bottom:10px;">
+          <a href="{% url 'mainfunction:add_daily_details' project_name=project.0 %}?user={{ user }}" class="card" style="border: 2px solid #414141; text-align: center; background-color: #009688; color: white">
+            <p>{{ project.0 }}</p>
+            <p>{{ project.1 }}</p>
+            <p>Day-{{ project.2 }}</p>
+          </a>
+        </li>
+      {% endfor %}
+  </ul>
+</body>
+</html>  
