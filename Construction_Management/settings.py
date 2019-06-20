@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8k(^=io5o*%u(ak2$5dp1^ou*ljw$(legog7x65oo=rt=qx7@c'
+SECRET_KEY = 'Your Key'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.1.5', 'localhost', '6cbc0045.ngrok.io']
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -79,8 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'construction_management_database',
-        'USER': 'root',
-        'PASSWORD': '',
+        'USER': 'Your Database username',
+        'PASSWORD': 'Your database password',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -128,7 +128,7 @@ STATIC_URL = '/static/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'hariduttjani@gmail.com'
-EMAIL_HOST_PASSWORD = 'HaRuKi@MkMi'
+EMAIL_HOST_USER = 'Your Email-ID'
+EMAIL_HOST_PASSWORD = 'Your Password'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
