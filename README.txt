@@ -1,0 +1,1 @@
+A Django based website for managing construction tasks.

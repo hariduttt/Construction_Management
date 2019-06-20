@@ -7,6 +7,7 @@
 
   <title>Login - Construction Management</title>
 
+
   <link href='https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,900' rel='stylesheet' type='text/css'>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,20 +15,109 @@
   <meta name="keywords" content="bootstrap 3, skin, flat">
   <meta name="author" content="bootstraptaste">
 
-  <!-- Bootstrap css -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   {% load static %}
   <link type="text/css" href="{% static 'login/bootstrap.min.css' %}" rel="stylesheet">
   {% load static %}
   <link type="text/css" href="{% static 'login/bootstrap.techie.css' %}" rel="stylesheet">
+  <script type="text/javascript">
+  	function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+	}
 
-  <!-- =======================================================
-    Theme Name: Techie
-    Theme URL: https://bootstrapmade.com/techie-free-skin-bootstrap-3/
-    Author: BootstrapMade
-    Author URL: https://bootstrapmade.com
-  ======================================================= -->
+	function csrfSafeMethod(method) {
+    	// these HTTP methods do not require CSRF protection
+    	return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
 
-  <!-- Docs Custom styles -->
+  	function loadDoc(){
+		$(document).ready(function(){
+			var csrftoken = getCookie('csrftoken');
+			$.ajaxSetup({
+			    beforeSend: function(xhr, settings) {
+			        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+			            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			        }
+			    }
+			});
+			$.post("{% url 'mainfunction:add_item' %}", 
+				{
+					inputProjectName : document.getElementById('inputProjectName').value,
+					inputClientName : document.getElementById('inputClientName').value, 
+					inputStartingDate : document.getElementById('inputStartingDate').value,
+					inputEndingDate : document.getElementById('inputEndingDate').value,
+					inputLocation : document.getElementById('inputLocation').value,
+					inputCity : document.getElementById('inputCity').value
+				},
+				function(json_responser){
+					var response = json_responser.Error;
+					$("#err").html(response);
+					if(response == ""){
+						$.post("{% url 'mainfunction:dashboard' %}?user={{ user }}", 
+						{
+							inputProjectName : document.getElementById('inputProjectName').value,
+							inputClientName : document.getElementById('inputClientName').value, 
+							inputStartingDate : document.getElementById('inputStartingDate').value,
+							inputEndingDate : document.getElementById('inputEndingDate').value,
+							inputLocation : document.getElementById('inputLocation').value,
+							inputCity : document.getElementById('inputCity').value
+						},
+						function(data)
+						{
+							console.log(data.redirect);
+							window.location.href = "{% url 'mainfunction:dashboard' %}?user={{ user }}";
+						});
+					}
+				}
+			);
+		});
+	}
+
+  	function date_check(id_name){
+  		var date = document.getElementById(id_name).value;
+  		var entered_date = new Date(date);
+  		var now = new Date();
+  		if(entered_date < now){
+  			var btn = document.getElementById("add");
+  			btn.disabled = true;
+  			alert("Enter the date which is not in past.");
+  		}
+  		else{
+  			var btn = document.getElementById("add");
+  			btn.disabled = false;	
+  		}
+  	}
+
+  	function date_cmp(id_name){
+  		date_check(id_name);
+  		var start = document.getElementById("inputStartingDate").value;
+  		var end = document.getElementById("inputEndingDate").value;
+  		var start_date = new Date(start);
+  		var end_date = new Date(end);
+  		if(end_date <= start_date){
+  			var btn = document.getElementById("add");
+  			btn.disabled = true;
+  			alert("Ending date have to be ahead of starting date.");	
+  		}
+  		else{
+  			var btn = document.getElementById("add");
+  			btn.disabled = false;
+  		}
+  	}
+  </script>
   <style>
     body,
     html {
@@ -97,51 +187,24 @@
     <div class="col-sm-12 col-lg-12">
       <div class="row">
         <div class="container">
+          <div style="color: red" id="err"></div>
           {% if error %}
             <div style="color: red"> {{ error }} </div>
           {% endif %}
           <form class="form-horizontal" action="{% url 'mainfunction:dashboard' %}?user={{ user }}" method="post">
             {% csrf_token %}
-            <div class="form-group">
-              <label for="inputProjectName" class="col-lg-2 control-label">Project Name</label>
-              <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputProjectName" name="inputProjectName" placeholder="Name of the project">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputClientName" class="col-lg-2 control-label">Client Name</label>
-              <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputClientName" name="inputClientName" placeholder="Name of the client">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputStartingDate" class="col-lg-2 control-label">Starting Date</label>
-              <div class="col-lg-10">
-                <input type="Date" class="form-control" id="inputStartingDate" name="inputStartingDate" placeholder="Starting Date">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputEndingDate" class="col-lg-2 control-label">Ending Date</label>
-              <div class="col-lg-10">
-                <input type="Date" class="form-control" id="inputEndingDate" name="inputEndingDate" placeholder="Ending Date">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputLocation" class="col-lg-2 control-label">Location</label>
-              <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputLocation" name="inputLocation" placeholder="Entre the location of the construction">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputCity" class="col-lg-2 control-label">City</label>
-              <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputCity" name="inputCity" placeholder="City">
-              </div>
-            </div>
+			{% for field in form %}
+				<div class="form-group">
+			      <label for="{{ field.id_for_lable }}" class="col-lg-2 control-label">{{ field.label_tag }}</label>
+			      <div class="col-lg-10">
+			        {{ field }}
+			      </div>
+			    </div>
+			{% endfor %}
             <span class="form-group">
               <span class="col-lg-offset-2 col-lg-10">
-                <button type="submit" class="btn btn-default">ADD</button>
-              	<a class="btn btn-default" href="">BACK</a>
+                <button id="add" type="button" class="btn btn-default" onclick="loadDoc()">ADD</button>
+              	<a class="btn btn-default" href="{% url 'mainfunction:dashboard' %}?user={{ user }}">BACK</a>
               </span>
             </span>
           </form>

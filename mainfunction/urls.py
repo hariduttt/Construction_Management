@@ -11,7 +11,7 @@ app_name = 'mainfunction'
 
 urlpatterns = [
             path('', views.dashboard, name='dashboard'),
-            path('additem', views.add_item, name='add_item'),
+            path('additem/', views.add_item, name='add_item'),
             path('dailydetails/<project_name>/', views.add_daily_details,
                  name='add_daily_details')
         ]

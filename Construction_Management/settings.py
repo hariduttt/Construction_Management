@@ -25,7 +25,7 @@ SECRET_KEY = '8k(^=io5o*%u(ak2$5dp1^ou*ljw$(legog7x65oo=rt=qx7@c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.5', 'localhost', '6cbc0045.ngrok.io']
 
 
 # Application definition
@@ -124,3 +124,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'hariduttjani@gmail.com'
+EMAIL_HOST_PASSWORD = 'HaRuKi@MkMi'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
